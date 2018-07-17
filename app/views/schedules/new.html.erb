@@ -1,0 +1,81 @@
+<div class="container-fluid">
+  <h1>スケジュール登録</h1>
+
+  <%= form_for @worker, url: {action: 'create'}, method: :post do |f| %>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="row">日付</th>
+        <th scope="row">開始時間</th>
+        <th scope="row">終了時間</th>
+      </tr>
+      </thead>
+      <tbody>
+        <% @schedules.each do |schedule| %>
+          <!-- fields_forは不要なはず -->
+          <%= f.fields_for :schedules, schedule do |schedule_form| %>
+            <% day = @now + schedule_form.index.day %>
+            <%= hidden_field_tag "schedules[][date]", day.to_date %>
+            <tr>
+              <th scope="row"><%= day.strftime("%m/%d(%a)") %></th>
+              <% if schedule.new_record? %>
+                <td>
+                  <div class="row">
+                    <div class="col-auto">
+                      <%= select_tag "schedules[][start_hour]", options_for_select(@hour_options), include_blank: true, class: "custom-select" %>
+                    </div>
+                      ：
+                    <div class="col-auto">
+                      <%= select_tag "schedules[][start_min]", options_for_select(@min_options), include_blank: true, class: "custom-select" %>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="row">
+                    <div class="col-auto">
+                      <%= select_tag "schedules[][end_hour]", options_for_select(@hour_options), include_blank: true, class: "custom-select" %>
+                    </div>：
+                    <div class="col-auto">
+                      <%= select_tag "schedules[][end_min]", options_for_select(@min_options), include_blank: true, class: "custom-select" %>
+                    </div>
+                  </div>
+                </td>
+              <% else %>
+                <td>
+                  <div class="row">
+                    <div class="col-auto">
+                      <%= select_tag "schedules[][start_hour]", options_for_select(@hour_options, :selected => schedule.start_at.hour.to_s), include_blank: true, class: "custom-select" %>
+                    </div>：
+                    <div class="col-auto">
+                      <%= select_tag "schedules[][start_min]", options_for_select(@min_options, :selected => schedule.start_at.min.to_s), include_blank: true, class: "custom-select" %>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="row">
+                    <div class="col-auto">
+                      <%= select_tag "schedules[][end_hour]", options_for_select(@hour_options, selected: schedule.end_at.hour), include_blank: true, class: "custom-select" %>
+                    </div>：
+                    <div class="col-auto">
+                      <%= select_tag "schedules[][end_min]", options_for_select(@min_options, selected: schedule.end_at.min), include_blank: true, class: "custom-select" %>
+                    </div>
+                  </div>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div>
+      <%= f.submit '登録', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.datepicker').datepicker();
+    });
+</script>
