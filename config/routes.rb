@@ -7,7 +7,12 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :schedules
-  resources :workers
+  resources :workers, only: [:index, :show] do
+    resources :schedules, only: [:index] do
+      get :arrange
+      post :determine
+    end
+  end
 
   resource :staff do
     resource :shop, only: [:show]
