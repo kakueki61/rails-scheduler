@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_16_120227) do
+ActiveRecord::Schema.define(version: 2018_07_26_155500) do
 
   create_table "schedules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "start_at"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2018_07_16_120227) do
 
   create_table "staffs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
+    t.bigint "shop_id"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 2018_07_16_120227) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_staffs_on_email", unique: true
     t.index ["reset_password_token"], name: "index_staffs_on_reset_password_token", unique: true
+    t.index ["shop_id"], name: "index_staffs_on_shop_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -88,6 +90,7 @@ ActiveRecord::Schema.define(version: 2018_07_16_120227) do
   end
 
   add_foreign_key "schedules", "workers"
+  add_foreign_key "staffs", "shops"
   add_foreign_key "worker_shops", "shops"
   add_foreign_key "worker_shops", "workers"
 end

@@ -15,11 +15,17 @@
 #  sign_in_count          :integer          default(0), not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  shop_id                :bigint(8)
 #
 # Indexes
 #
 #  index_staffs_on_email                 (email) UNIQUE
 #  index_staffs_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_staffs_on_shop_id               (shop_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (shop_id => shops.id)
 #
 
 require 'test_helper'

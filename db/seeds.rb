@@ -10,4 +10,6 @@
   worker = Worker.create(email: "sample#{i}@ex.com", password: "password")
   shop = Shop.create(name: "ダミー店#{i}")
   WorkerShop.create(worker: worker, shop: shop)
+
+  staff = Staff.create(email: "staff#{i}@ex.com", password: "password", shop: shop)
 end
