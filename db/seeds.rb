@@ -23,7 +23,7 @@ WorkerShop.create(worker: worker1, shop: shop)
 
 now = Time.zone.now
 5.times do |i|
-  now = now + i.day
+  now = now + 1.day
   Schedule.create(start_at: now, end_at: now.end_of_day, worker: worker)
   Schedule.create(start_at: now, end_at: now.end_of_day, worker: worker1)
 end
