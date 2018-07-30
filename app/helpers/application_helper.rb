@@ -9,4 +9,16 @@ module ApplicationHelper
       page_title + " | " + base_title
     end
   end
+
+  def hour_options
+    options = {}
+    24.times do |i|
+      options["%02d" % i] = i
+    end
+    options
+  end
+
+  def min_options
+    [["00", 0], ["15", 15], ["30", 30], ["45", 45]]
+  end
 end

@@ -27,7 +27,7 @@
               <% if schedule.nil? %>
               ー
               <% else %>
-                <%= link_to schedule.to_string, "#" %>
+                <%= link_to schedule.to_string, worker_schedule_arrange_path(worker, schedule) %>
               <% end %>
             </div>
           </div>

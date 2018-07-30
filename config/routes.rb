@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   resources :schedules
   resources :workers, only: [:index, :show] do
-    resources :schedules, only: [:index] do
+    resources :schedules, only: [:index], controller: :workers do
       get :arrange
       post :determine
     end

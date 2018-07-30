@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <p><%= "#{@worker.email}さんのスケジュール" %></p>
+
+  <%= form_tag  worker_schedule_determine_path(@worker, @schedule), method: :post do %>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="row">空き時間</th>
+        <th scope="row">開始時間</th>
+        <th scope="row">終了時間</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row"><%= @schedule.to_string %></th>
+          <td>
+            <div class="row">
+              <div class="col-auto">
+                <%= select_tag "schedules[][start_hour]", options_for_select(hour_options), include_blank: true, class: "custom-select" %>
+              </div>
+              ：
+              <div class="col-auto">
+                <%= select_tag "schedules[][start_min]", options_for_select(min_options), include_blank: true, class: "custom-select" %>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="row">
+              <div class="col-auto">
+                <%= select_tag "schedules[][end_hour]", options_for_select(hour_options), include_blank: true, class: "custom-select" %>
+              </div>：
+              <div class="col-auto">
+                <%= select_tag "schedules[][end_min]", options_for_select(min_options), include_blank: true, class: "custom-select" %>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div>
+      <%= submit_tag '登録', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+
+</div>

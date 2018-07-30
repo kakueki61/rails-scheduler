@@ -13,6 +13,8 @@ class WorkersController < ApplicationController
   end
 
   def arrange
+    @worker = current_staff.shop.workers.find_by(id: params[:worker_id])
+    @schedule = @worker.schedules.find_by(id: params[:schedule_id])
   end
 
   def determine
