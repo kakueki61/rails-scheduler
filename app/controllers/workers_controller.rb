@@ -27,10 +27,8 @@ class WorkersController < ApplicationController
 
     @blocked_schedule = BlockedSchedule.new(schedule: @schedule, shop: shop, start_at: blocking.start_at, end_at: blocking.end_at)
     if @blocked_schedule.save
-      binding.pry
       render :complete
     else
-      binding.pry
       render :blocking_error
     end
   end

@@ -37,7 +37,6 @@ class BlockedSchedule < ApplicationRecord
   end
 
   def duplication_for_the_same_schedule
-    binding.pry
     blocked_schedules = BlockedSchedule.where(schedule_id: schedule_id)
     blocked_schedules.each do |blocked|
       if start_at < blocked.start_at && blocked.start_at < end_at + Constants::SCHEDULE_INTERVAL_TIME

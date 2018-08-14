@@ -42,21 +42,22 @@ class Schedule < ApplicationRecord
 
     sorted_blocked_schedules = blocked_schedules.sort {|a, b| a.start_at <=> b.start_at}
 
+    interval = Constants::SCHEDULE_INTERVAL_TIME
     sorted_blocked_schedules.inject(nil) do |prev, current|
       if prev.nil?
-        if (current.start_at - start_at) >= 30.minutes
-          schedules << TimeRange.new(start_at, current.start_at)
+        if (current.start_at - start_at) >= interval
+          schedules << TimeRange.new(start_at, current.start_at - interval)
         end
       else
-        if (current.start_at - prev.end_at) >= 30.minutes
-          schedules << TimeRange.new(prev.end_at, current.start_at)
+        if (current.start_at - prev.end_at) > interval * 2
+          schedules << TimeRange.new(prev.end_at + interval, current.start_at - interval)
         end
       end
       current
     end
 
-    if (end_at - sorted_blocked_schedules.last.end_at) >= 30.minutes
-      schedules << TimeRange.new(sorted_blocked_schedules.last.end_at, end_at)
+    if (end_at - sorted_blocked_schedules.last.end_at) >= interval
+      schedules << TimeRange.new(sorted_blocked_schedules.last.end_at + interval, end_at)
     end
     schedules
   end
