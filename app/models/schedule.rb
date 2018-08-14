@@ -19,6 +19,7 @@
 #
 
 class Schedule < ApplicationRecord
+  has_many :blocked_schedules
   belongs_to :worker
   validates :worker_id, presence: true
   validates :start_at, presence: true
@@ -29,5 +30,40 @@ class Schedule < ApplicationRecord
 
   def to_string
     start_at.strftime("%H:%M") + " 〜 " + end_at.strftime("%H:%M")
+  end
+
+  def available_time_ranges
+    schedules = []
+
+    if blocked_schedules.empty?
+      schedules << TimeRange.new(start_at, end_at)
+      return schedules
+    end
+
+    sorted_blocked_schedules = blocked_schedules.sort {|a, b| a.start_at <=> b.start_at}
+
+    sorted_blocked_schedules.inject(nil) do |prev, current|
+      if prev.nil?
+        if (current.start_at - start_at) >= 30.minutes
+          schedules << TimeRange.new(start_at, current.start_at)
+        end
+      else
+        if (current.start_at - prev.end_at) >= 30.minutes
+          schedules << TimeRange.new(prev.end_at, current.start_at)
+        end
+      end
+      current
+    end
+
+    if (end_at - sorted_blocked_schedules.last.end_at) >= 30.minutes
+      schedules << TimeRange.new(sorted_blocked_schedules.last.end_at, end_at)
+    end
+    schedules
+  end
+
+  def available_time_range_text
+    available_time_ranges.map do |range|
+      range.to_string
+    end.join(", ")
   end
 end

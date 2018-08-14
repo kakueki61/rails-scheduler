@@ -1,36 +1,55 @@
 <div class="container-fluid">
-  <p><%= "#{@worker.email}さんのスケジュール" %></p>
+  <h2>空き時間</h2>
+  <p>
+    <%= "#{@worker.email}さん" %><br>
+    <%= "#{@schedule.start_at.strftime("%m/%d(%a)")}のスケジュール" %>
+  </p>
 
-  <%= form_tag  worker_schedule_determine_path(@worker, @schedule), method: :post do %>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="row">空き時間</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @availables.each do |available| %>
+      <tr>
+        <th scope="row"><%= available.to_string %></th>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <h2 class="mt-5">時間登録</h2>
+  <p>希望時間を入力してください。</p>
+  <%= form_tag worker_schedule_determine_path(@worker, @schedule), method: :post do %>
     <table class="table table-hover">
       <thead>
       <tr>
-        <th scope="row">空き時間</th>
         <th scope="row">開始時間</th>
         <th scope="row">終了時間</th>
       </tr>
       </thead>
       <tbody>
         <tr>
-          <th scope="row"><%= @schedule.to_string %></th>
           <td>
             <div class="row">
               <div class="col-auto">
-                <%= select_tag "schedules[][start_hour]", options_for_select(hour_options), include_blank: true, class: "custom-select" %>
+                <%= select_tag "schedule[start_hour]", options_for_select(hour_options), include_blank: true, class: "custom-select" %>
               </div>
               ：
               <div class="col-auto">
-                <%= select_tag "schedules[][start_min]", options_for_select(min_options), include_blank: true, class: "custom-select" %>
+                <%= select_tag "schedule[start_min]", options_for_select(min_options), include_blank: true, class: "custom-select" %>
               </div>
             </div>
           </td>
           <td>
             <div class="row">
               <div class="col-auto">
-                <%= select_tag "schedules[][end_hour]", options_for_select(hour_options), include_blank: true, class: "custom-select" %>
+                <%= select_tag "schedule[end_hour]", options_for_select(hour_options), include_blank: true, class: "custom-select" %>
               </div>：
               <div class="col-auto">
-                <%= select_tag "schedules[][end_min]", options_for_select(min_options), include_blank: true, class: "custom-select" %>
+                <%= select_tag "schedule[end_min]", options_for_select(min_options), include_blank: true, class: "custom-select" %>
               </div>
             </div>
           </td>
@@ -39,6 +58,7 @@
     </table>
 
     <div>
+      <%= hidden_field_tag "schedule_id", @schedule.id %>
       <%= submit_tag '登録', class: 'btn btn-primary' %>
     </div>
   <% end %>

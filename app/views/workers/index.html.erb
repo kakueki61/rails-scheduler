@@ -24,10 +24,10 @@
         <td>
           <div class="row">
             <div class="col-auto">
-              <% if schedule.nil? %>
+              <% if schedule.blank? %>
               ー
               <% else %>
-                <%= link_to schedule.to_string, worker_schedule_arrange_path(worker, schedule) %>
+                <%= link_to schedule.available_time_range_text, worker_schedule_arrange_path(worker, schedule) %>
               <% end %>
             </div>
           </div>

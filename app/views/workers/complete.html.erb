@@ -1,0 +1,25 @@
+<div class="container-fluid">
+
+  <p>以下のスケジュールを登録しました。</p>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="row">名前</th>
+      <th scope="row">日付</th>
+      <th scope="row">開始時間</th>
+      <th scope="row">終了時間</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th scope="row"><%= @worker.email %></th>
+      <th scope="row"><%= @blocked_schedule.start_at.strftime("%m/%d(%a)") %></th>
+      <td><%= @blocked_schedule.start_at.strftime("%H:%M") %></td>
+      <td><%= @blocked_schedule.end_at.strftime("%H:%M") %></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <%= link_to "戻る", worker_schedule_arrange_path(@worker, @schedule) %>
+
+</div>
