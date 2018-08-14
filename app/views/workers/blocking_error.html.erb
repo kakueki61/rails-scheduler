@@ -1,0 +1,12 @@
+<div class="container-fluid">
+
+  <p>予定の確保に失敗しました。</p>
+  <ul>
+    <% @blocked_schedule.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+
+  <%= link_to "戻る", worker_schedule_arrange_path(@worker, @schedule) %>
+
+</div>

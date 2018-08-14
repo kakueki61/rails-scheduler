@@ -11,4 +11,5 @@
 class Shop < ApplicationRecord
   has_many :worker_shops
   has_many :workers, through: :worker_shops
+  has_many :staffs
 end
