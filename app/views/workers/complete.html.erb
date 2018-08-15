@@ -13,9 +13,9 @@
     <tbody>
     <tr>
       <th scope="row"><%= @worker.email %></th>
-      <th scope="row"><%= @blocked_schedule.start_at.strftime("%m/%d(%a)") %></th>
-      <td><%= @blocked_schedule.start_at.strftime("%H:%M") %></td>
-      <td><%= @blocked_schedule.end_at.strftime("%H:%M") %></td>
+      <th scope="row"><%= @fixed_schedule.start_at.strftime("%m/%d(%a)") %></th>
+      <td><%= @fixed_schedule.start_at.strftime("%H:%M") %></td>
+      <td><%= @fixed_schedule.end_at.strftime("%H:%M") %></td>
     </tr>
     </tbody>
   </table>

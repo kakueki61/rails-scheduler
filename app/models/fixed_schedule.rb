@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: blocked_schedules
+# Table name: fixed_schedules
 #
 #  id          :bigint(8)        not null, primary key
 #  end_at      :datetime
@@ -12,8 +12,8 @@
 #
 # Indexes
 #
-#  index_blocked_schedules_on_schedule_id  (schedule_id)
-#  index_blocked_schedules_on_shop_id      (shop_id)
+#  index_fixed_schedules_on_schedule_id  (schedule_id)
+#  index_fixed_schedules_on_shop_id      (shop_id)
 #
 # Foreign Keys
 #
@@ -21,7 +21,7 @@
 #  fk_rails_...  (shop_id => shops.id)
 #
 
-class BlockedSchedule < ApplicationRecord
+class FixedSchedule < ApplicationRecord
   belongs_to :schedule
   belongs_to :shop
 
@@ -41,12 +41,12 @@ class BlockedSchedule < ApplicationRecord
   end
 
   def duplication_for_the_same_schedule
-    blocked_schedules = BlockedSchedule.where(schedule_id: schedule_id)
-    blocked_schedules.each do |blocked|
-      if start_at < blocked.start_at && blocked.start_at < end_at + Constants::SCHEDULE_INTERVAL_TIME
+    fixed_schedules = FixedSchedule.where(schedule_id: schedule_id)
+    fixed_schedules.each do |fixed|
+      if start_at < fixed.start_at && fixed.start_at < end_at + Constants::SCHEDULE_INTERVAL_TIME
         add_duplication_error
         break
-      elsif blocked.start_at <= start_at && start_at < blocked.end_at + Constants::SCHEDULE_INTERVAL_TIME
+      elsif fixed.start_at <= start_at && start_at < fixed.end_at + Constants::SCHEDULE_INTERVAL_TIME
         add_duplication_error
         break
       end

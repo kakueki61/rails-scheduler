@@ -25,8 +25,8 @@ class WorkersController < ApplicationController
     date = @schedule.start_at.to_date
     blocking = blocking_time_range(date)
 
-    @blocked_schedule = BlockedSchedule.new(schedule: @schedule, shop: shop, start_at: blocking.start_at, end_at: blocking.end_at)
-    if @blocked_schedule.save
+    @fixed_schedule = FixedSchedule.new(schedule: @schedule, shop: shop, start_at: blocking.start_at, end_at: blocking.end_at)
+    if @fixed_schedule.save
       render :complete
     else
       render :blocking_error

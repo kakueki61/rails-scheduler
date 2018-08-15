@@ -19,7 +19,7 @@
 #
 
 class Schedule < ApplicationRecord
-  has_many :blocked_schedules
+  has_many :fixed_schedules
   belongs_to :worker
   validates :worker_id, presence: true
   validates :start_at, presence: true
@@ -35,15 +35,15 @@ class Schedule < ApplicationRecord
   def available_time_ranges
     schedules = []
 
-    if blocked_schedules.empty?
+    if fixed_schedules.empty?
       schedules << TimeRange.new(start_at, end_at)
       return schedules
     end
 
-    sorted_blocked_schedules = blocked_schedules.sort {|a, b| a.start_at <=> b.start_at}
+    sorted_fixed_schedules = fixed_schedules.sort {|a, b| a.start_at <=> b.start_at}
 
     interval = Constants::SCHEDULE_INTERVAL_TIME
-    sorted_blocked_schedules.inject(nil) do |prev, current|
+    sorted_fixed_schedules.inject(nil) do |prev, current|
       if prev.nil?
         if (current.start_at - start_at) >= interval
           schedules << TimeRange.new(start_at, current.start_at - interval)
@@ -56,8 +56,8 @@ class Schedule < ApplicationRecord
       current
     end
 
-    if (end_at - sorted_blocked_schedules.last.end_at) >= interval
-      schedules << TimeRange.new(sorted_blocked_schedules.last.end_at + interval, end_at)
+    if (end_at - sorted_fixed_schedules.last.end_at) >= interval
+      schedules << TimeRange.new(sorted_fixed_schedules.last.end_at + interval, end_at)
     end
     schedules
   end

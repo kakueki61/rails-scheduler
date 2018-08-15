@@ -12,15 +12,15 @@
     <tbody>
     <% @schedules.each do |schedule| %>
       <% day = schedule.start_at.to_date %>
-      <% blocked = schedule.blocked_schedules %>
+      <% fixed = schedule.fixed_schedules %>
 
-      <% if blocked.size > 1 %>
+      <% if fixed.size > 1 %>
         <tr>
-          <th rowspan="<%= blocked.size %>"><%= day.strftime("%m/%d(#{%w(日 月 火 水 木 金 土)[day.wday]})") %></th>
-          <td rowspan="<%= blocked.size %>"><%= schedule.to_string %></td>
-          <td><%= blocked.first&.to_string %></td>
+          <th rowspan="<%= fixed.size %>"><%= day.strftime("%m/%d(#{%w(日 月 火 水 木 金 土)[day.wday]})") %></th>
+          <td rowspan="<%= fixed.size %>"><%= schedule.to_string %></td>
+          <td><%= fixed.first&.to_string %></td>
         </tr>
-        <% blocked.each_with_index do |b, i| %>
+        <% fixed.each_with_index do |b, i| %>
           <% next if i == 0 %>
           <tr>
             <td><%= b.to_string %></td>
@@ -30,7 +30,7 @@
         <tr>
           <th scope="row"><%= day.strftime("%m/%d(#{%w(日 月 火 水 木 金 土)[day.wday]})") %></th>
           <td><%= schedule.to_string %></td>
-          <td><%= blocked.first&.to_string %></td>
+          <td><%= fixed.first&.to_string %></td>
         </tr>
       <% end %>
     <% end %>
