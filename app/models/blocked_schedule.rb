@@ -28,6 +28,10 @@ class BlockedSchedule < ApplicationRecord
   validate :end_should_be_later_than_start
   validate :duplication_for_the_same_schedule
 
+  def to_string
+    start_at.strftime("%H:%M") + " 〜 " + end_at.strftime("%H:%M")
+  end
+
   private
 
   def end_should_be_later_than_start
