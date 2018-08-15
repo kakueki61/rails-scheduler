@@ -1,37 +1,39 @@
 <div class="container-fluid">
-  <h1>Schedule#index</h1>
-  <p>Find me in app/views/schedule/index.html.erb</p>
-  <h3><%= @signedIn %></h3>
-  <h3><%= @worker.email  %></h3>
+  <h1>スケジュール確認</h1>
 
   <table class="table">
     <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">日付</th>
+      <th scope="col">勤務可能時間</th>
+      <th scope="col">出勤時間</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
+    <% @schedules.each do |schedule| %>
+      <% day = schedule.start_at.to_date %>
+      <% blocked = schedule.blocked_schedules %>
+
+      <% if blocked.size > 1 %>
+        <tr>
+          <th rowspan="<%= blocked.size %>"><%= day.strftime("%m/%d(#{%w(日 月 火 水 木 金 土)[day.wday]})") %></th>
+          <td rowspan="<%= blocked.size %>"><%= schedule.to_string %></td>
+          <td><%= blocked.first&.to_string %></td>
+        </tr>
+        <% blocked.each_with_index do |b, i| %>
+          <% next if i == 0 %>
+          <tr>
+            <td><%= b.to_string %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row"><%= day.strftime("%m/%d(#{%w(日 月 火 水 木 金 土)[day.wday]})") %></th>
+          <td><%= schedule.to_string %></td>
+          <td><%= blocked.first&.to_string %></td>
+        </tr>
+      <% end %>
+    <% end %>
     </tbody>
   </table>
 </div>

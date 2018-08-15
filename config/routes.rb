@@ -6,7 +6,10 @@ Rails.application.routes.draw do
   get 'welcome/index'
   root 'welcome#index'
 
-  resources :schedules
+  resource :worker do
+    resources :schedules
+  end
+
   resources :workers, only: [:index, :show] do
     resources :schedules, only: [:index], controller: :workers do
       get :arrange

@@ -2,8 +2,15 @@ class SchedulesController < ApplicationController
   before_action :authenticate_worker!
 
   def index
-    @signedIn = worker_signed_in?
     @worker = current_worker
+    @now = Time.zone.now
+
+    @schedules = []
+    14.times do |i|
+      day = @now + i.day
+      @schedules << @worker.schedules.find {|it| it.start_at&.to_date == day.to_date}
+    end
+    @schedules.compact!
   end
 
   def new
@@ -16,13 +23,7 @@ class SchedulesController < ApplicationController
     @schedules = []
     14.times do |i|
       day = @now + i.day
-      schedule = @worker.schedules.select {|it| it.start_at&.to_date == day.to_date }.first
-
-      if schedule.present?
-        @schedules << schedule
-      else
-        @schedules << @worker.schedules.build
-      end
+      @schedules << (@worker.schedules.find {|it| it.start_at&.to_date == day.to_date} || @worker.schedules.build)
     end
   end
 
