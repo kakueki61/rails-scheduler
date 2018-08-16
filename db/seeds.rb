@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 5.times do |i|
-  worker = Worker.create(email: "worker#{i}@ex.com", password: "password")
+  worker = Worker.create(email: "worker#{i}@ex.com", name: Gimei.female.first.kanji, password: "password")
   shop = Shop.create(name: "ダミー店#{i}")
   WorkerShop.create(worker: worker, shop: shop)
 
@@ -16,8 +16,8 @@ end
 
 # for shop 0
 shop = Shop.first
-worker = Worker.create(email: "sample@ex.com", password: "password")
-worker1 = Worker.create(email: "sample1@ex.com", password: "password")
+worker = Worker.create(email: "sample@ex.com", name: Gimei.female.first.kanji, password: "password")
+worker1 = Worker.create(email: "sample1@ex.com", name: Gimei.female.first.kanji, password: "password")
 WorkerShop.create(worker: worker, shop: shop)
 WorkerShop.create(worker: worker1, shop: shop)
 
