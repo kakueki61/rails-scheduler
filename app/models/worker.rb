@@ -33,4 +33,8 @@ class Worker < ApplicationRecord
   accepts_nested_attributes_for :schedules
   has_many :worker_shops
   has_many :shops, through: :worker_shops
+
+  def schedules_on(day)
+    schedules.of(day).first
+  end
 end

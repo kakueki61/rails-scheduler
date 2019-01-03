@@ -12,27 +12,35 @@
     <tr>
       <th scope="row">名前</th>
       <th scope="row">空き時間</th>
+      <th scope="row"><%= @shop.name %>での舗勤務時間</th>
     </tr>
     </thead>
 
     <tbody>
     <% @workers.each do |worker| %>
-      <% schedule = worker.schedules.of(@day).first %>
+      <% schedule = worker.schedules_on(@day) %>
+      <% my_shop_schedules = schedule&.fixed_schedules_by_shop(@shop) %>
 
-      <tr>
-        <th scope="row"><%= worker.name %></th>
-        <td>
-          <div class="row">
-            <div class="col-auto">
-              <% if schedule.blank? %>
-                ー
-              <% else %>
-                <%= link_to schedule.available_time_range_text, mng_worker_schedule_arrange_path(worker, schedule) %>
-              <% end %>
-            </div>
-          </div>
-        </td>
-      </tr>
+      <% if !my_shop_schedules.nil? && my_shop_schedules.size > 1 %>
+        <tr>
+          <th scope="row" rowspan="<%= my_shop_schedules.size %>"><%= worker.name %></th>
+          <td rowspan="<%= my_shop_schedules.size %>"><%= worker.available_time_link(@day) %></td>
+          <td><%= my_shop_schedules.first.to_string %></td>
+        </tr>
+        <% my_shop_schedules.each_with_index do |b, i| %>
+          <% next if i == 0 %>
+          <tr>
+            <td><%= b.to_string %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <th scope="row"><%= worker.name %></th>
+          <td><%= worker.available_time_link(@day) %></td>
+          <td><%= my_shop_schedules&.first&.to_string %></td>
+        </tr>
+      <% end %>
+
 
     <% end %>
     </tbody>
