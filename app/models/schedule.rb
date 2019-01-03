@@ -67,4 +67,8 @@ class Schedule < ApplicationRecord
       range.to_string
     end.join(", ")
   end
+
+  def fixed_schedules_by_shop(shop)
+    fixed_schedules.where(shop: shop)
+  end
 end

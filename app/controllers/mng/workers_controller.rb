@@ -7,22 +7,23 @@ class Mng::WorkersController < Mng::BaseController
       @day = Time.zone.parse(params[:date])
     end
     @day ||= Time.zone.today
-    @workers = current_staff.shop.workers
+    @shop = my_shop
+    @workers = WorkerDecorator.decorate_collection(my_workers)
   end
 
   def show
   end
 
   def arrange
-    @worker = current_staff.shop.workers.find_by(id: params[:worker_id])
+    @worker = my_workers.find_by(id: params[:worker_id])
     @schedule = @worker.schedules.find_by(id: params[:schedule_id])
     @availables = @worker.schedules.find_by(id: params[:schedule_id]).available_time_ranges
   end
 
   def determine
-    @worker = current_staff.shop.workers.find_by(id: params[:worker_id])
+    @worker = my_workers.find_by(id: params[:worker_id])
     @schedule = Schedule.find(schedule_id_param)
-    shop = current_staff.shop
+    shop = my_shop
     date = @schedule.start_at.to_date
     blocking = blocking_time_range(date)
 
@@ -35,6 +36,14 @@ class Mng::WorkersController < Mng::BaseController
   end
 
   private
+
+  def my_shop
+    current_staff.shop
+  end
+
+  def my_workers
+    my_shop.workers
+  end
 
   def schedule_params
     params.require(:schedule)
