@@ -1,8 +1,6 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <%#= link_to "sample app", root_path, id: "logo" %>
-<!--      <a class="navbar-brand" href="#">Navbar</a>-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="true" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -13,22 +11,20 @@
           </li>
           <% if logged_in? %>
             <li class="nav-item">
-              <%= link_to "スケジュール", worker_schedules_path, class: 'nav-link' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "登録", new_worker_schedule_path, class: 'nav-link' %>
+              <%= link_to "Worker", mng_workers_path, class: 'nav-link' %>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <%= current_worker.name %>
+                <%= current_staff_account %>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <%= link_to "Settings", edit_worker_registration_path(current_worker), class: 'dropdown-item' %>
-                <%= link_to "Log out", destroy_worker_session_path, method: :delete, class: 'dropdown-item' %>
+                <%= link_to "Profile", mng_staff_path, class: 'dropdown-item' %>
+                <%= link_to "Settings", edit_staff_registration_path(current_staff), class: 'dropdown-item' %>
+                <%= link_to "Log out", destroy_staff_session_path, method: :delete, class: 'dropdown-item' %>
               </div>
             </li>
           <% else %>
-            <li><%= link_to "Log in", new_worker_session_path, class: 'nav-link' %></li>
+            <li><%= link_to "Log in", new_staff_session_path, class: 'nav-link' %></li>
           <% end %>
         </ul>
       </div>

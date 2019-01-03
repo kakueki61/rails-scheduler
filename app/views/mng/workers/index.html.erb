@@ -1,9 +1,9 @@
 <div class="container-fluid">
   <div class="center-block">
     <div>
-      <%= link_to "前の日", workers_path(date: (@day - 1.day).strftime("%Y-%m-%d")), class: "btn btn-default" %>
+      <%= link_to "前の日", mng_workers_path(date: (@day - 1.day).strftime("%Y-%m-%d")), class: "btn btn-default" %>
       <%= @day.strftime("%m/%d(%a)") %>
-      <%= link_to "次の日", workers_path(date: (@day + 1.day).strftime("%Y-%m-%d")), class: "btn btn-default" %>
+      <%= link_to "次の日", mng_workers_path(date: (@day + 1.day).strftime("%Y-%m-%d")), class: "btn btn-default" %>
     </div>
   </div>
 
@@ -25,9 +25,9 @@
           <div class="row">
             <div class="col-auto">
               <% if schedule.blank? %>
-              ー
+                ー
               <% else %>
-                <%= link_to schedule.available_time_range_text, worker_schedule_arrange_path(worker, schedule) %>
+                <%= link_to schedule.available_time_range_text, mng_worker_schedule_arrange_path(worker, schedule) %>
               <% end %>
             </div>
           </div>

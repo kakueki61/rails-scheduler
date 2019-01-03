@@ -7,6 +7,7 @@
       <th scope="col">日付</th>
       <th scope="col">勤務可能時間</th>
       <th scope="col">出勤時間</th>
+      <th scope="col">出勤店舗</th>
     </tr>
     </thead>
     <tbody>
@@ -19,11 +20,13 @@
           <th rowspan="<%= fixed.size %>"><%= day.strftime("%m/%d(#{%w(日 月 火 水 木 金 土)[day.wday]})") %></th>
           <td rowspan="<%= fixed.size %>"><%= schedule.to_string %></td>
           <td><%= fixed.first&.to_string %></td>
+          <td><%= fixed.first&.shop.name %></td>
         </tr>
         <% fixed.each_with_index do |b, i| %>
           <% next if i == 0 %>
           <tr>
             <td><%= b.to_string %></td>
+            <td><%= b.shop.name %></td>
           </tr>
         <% end %>
       <% else %>
@@ -31,6 +34,7 @@
           <th scope="row"><%= day.strftime("%m/%d(#{%w(日 月 火 水 木 金 土)[day.wday]})") %></th>
           <td><%= schedule.to_string %></td>
           <td><%= fixed.first&.to_string %></td>
+          <td><%= fixed.first&.shop&.name %></td>
         </tr>
       <% end %>
     <% end %>
