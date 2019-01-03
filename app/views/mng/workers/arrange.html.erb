@@ -21,8 +21,8 @@
   </table>
 
   <h2 class="mt-5">時間登録</h2>
-  <p>希望時間を入力してください。</p>
-  <%= form_tag worker_schedule_determine_path(@worker, @schedule), method: :post do %>
+  <p>依頼する時間を入力してください。</p>
+  <%= form_tag mng_worker_schedule_determine_path(@worker, @schedule), method: :post do %>
     <table class="table table-hover">
       <thead>
       <tr>
@@ -47,7 +47,8 @@
             <div class="row">
               <div class="col-auto">
                 <%= select_tag "schedule[end_hour]", options_for_select(hour_options), include_blank: true, class: "custom-select" %>
-              </div>：
+              </div>
+              ：
               <div class="col-auto">
                 <%= select_tag "schedule[end_min]", options_for_select(min_options), include_blank: true, class: "custom-select" %>
               </div>

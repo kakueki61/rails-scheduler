@@ -1,4 +1,5 @@
-class WorkersController < ApplicationController
+# 管理画面
+class Mng::WorkersController < Mng::BaseController
   before_action :authenticate_staff!
 
   def index

@@ -1,0 +1,33 @@
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="true" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <%= link_to "Home", root_path, class: 'nav-link' %>
+          </li>
+          <% if logged_in? %>
+            <li class="nav-item">
+              <%= link_to "Worker", mng_workers_path, class: 'nav-link' %>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%= current_staff_account %>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <%= link_to "Profile", mng_staff_path, class: 'dropdown-item' %>
+                <%= link_to "Settings", edit_staff_registration_path(current_staff), class: 'dropdown-item' %>
+                <%= link_to "Log out", destroy_staff_session_path, method: :delete, class: 'dropdown-item' %>
+              </div>
+            </li>
+          <% else %>
+            <li><%= link_to "Log in", new_staff_session_path, class: 'nav-link' %></li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>
